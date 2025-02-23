@@ -42,8 +42,14 @@ platform :mac do
     build_mac_app(
       workspace: "macos/gitbar.xcworkspace",
       scheme: "GitBar",
-      export_method: "app-store",
+      export_method: "app-store-connect",
       configuration: "Release",
+      export_options: {
+        signingStyle: "automatic",
+        method: "app-store-connect",
+        teamID: ENV["APPLE_TEAM_ID"]
+      },
+
     )
     
     upload_to_testflight(

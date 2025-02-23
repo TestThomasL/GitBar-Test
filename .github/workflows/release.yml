@@ -87,7 +87,11 @@ jobs:
           APPLE_API_KEY_ISSUER_ID: ${{ secrets.APPLE_API_KEY_ISSUER_ID }}
           APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
           GITHUB_KEYCHAIN_PATH: ${{ env.GITHUB_KEYCHAIN_PATH }}
-        run: bundle exec fastlane beta --verbose
+        run: |
+          # Show all items in the keychain
+          security list-keychains
+          security find-identity -v
+          bundle exec fastlane beta --verbose
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
