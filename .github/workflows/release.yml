@@ -59,14 +59,18 @@ jobs:
           echo $DEVELOPMENT_CERTIFICATE_BASE64 | base64 --decode > development_certificate.cer
           echo $DEVELOPMENT_KEY_BASE64 | base64 --decode > development_key.pem
 
-          # Import distribution certificate
-          security import distribution_certificate.p12 -k "$GITHUB_KEYCHAIN_PATH" -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign
-
-          security find-identity -v -p codesigning
+          ls -lah /usr/bin/codesign/
 
           # Import development certificate and key
           security import development_certificate.cer -T /usr/bin/codesign
           security import development_key.pem -T /usr/bin/codesign -A
+
+          echo "List all identities"
+
+          security find-identity -v -p codesigning
+
+          # Import distribution certificate
+          security import distribution_certificate.p12 -k "$GITHUB_KEYCHAIN_PATH" -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign
 
           # Set keychain as default
           security list-keychains -s "$GITHUB_KEYCHAIN_PATH"
