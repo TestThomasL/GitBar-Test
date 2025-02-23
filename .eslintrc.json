@@ -1,0 +1,54 @@
+{
+  "extends": ["triple/react", "plugin:react-native-a11y/all"],
+  "plugins": ["react-native"],
+  "root": true,
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": "./tsconfig.json" },
+  "rules": {
+    "jsx-a11y/anchor-is-valid": "off",
+    // Allow void in async functions
+    "no-void": "off",
+    "no-restricted-imports": [
+      "error",
+      {
+        "paths": [
+          // Prevent importing the default Text from react-native instead of our custom one
+          {
+            "name": "react-native",
+            "importNames": ["Text"],
+            "message": "Please use our custom Text component instead."
+          }
+        ]
+      }
+    ],
+    "filenames/match-exported": "off",
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "caseInsensitive": true,
+          "order": "asc"
+        },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          ["parent", "sibling"],
+          "index"
+        ],
+        "newlines-between": "always",
+        "pathGroups": [
+          {
+            "pattern": "*(assets|components|constants|context|hooks|models|repositories|navigation|screens|services|src|store|transforms|utils)/**",
+            "group": "internal"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["internal"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+default_platform(:mac)
+
+platform :mac do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    app_store_connect_api_key = app_store_connect_api_key(
+        key_id: ENV["APPLE_API_KEY_ID"],
+        issuer_id: ENV["APPLE_API_KEY_ISSUER_ID"],
+        key_content: ENV["APPLE_API_KEY_CONTENT"],
+        is_key_content_base64: true,
+    )
+
+    # Get the certificate 
+    get_certificates(
+      api_key: app_store_connect_api_key,
+      keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
+      keychain_password: ENV["GITHUB_RUN_ID"],
+      platform: "macos",
+    )
+  
+    get_provisioning_profile(
+      api_key: app_store_connect_api_key,
+      app_identifier: "io.lamars.gitbar",
+      platform: "macos",
+      force: true,
+    )
+
+    # # Increment build number
+    # increment_build_number(
+    #   build_number: number_of_commits,
+    #   xcodeproj: "./macos/GitBar.xcodeproj"
+    # )
+
+    build_mac_app(
+      workspace: "macos/gitbar.xcworkspace",
+      scheme: "GitBar",
+      export_method: "app-store",
+      configuration: "Release",
+    )
+    
+    upload_to_testflight(
+      api_key: app_store_connect_api_key,
+      skip_submission: true,
+    )
+  end
+end

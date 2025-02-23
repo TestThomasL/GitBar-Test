@@ -1,0 +1,22 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/**/*.d.ts",
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.svelte",
+    "__tests__/*.tsx",
+    "*.js",
+    ".*.js",
+    "**/*.js",
+    "*.ts",
+    ".*.ts",
+    "*.tsx",
+    "**/*.ts",
+    "**/*.jsx",
+    ".*.cjs",
+    "**/*.cjs"
+  ]
+}

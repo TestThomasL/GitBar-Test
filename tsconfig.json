@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "React Native",
+  "_version": "2.0.0",
+  "compilerOptions": {
+    "target": "esnext",
+    "types": ["react-native", "jest", "node"],
+    "lib": ["es2019"],
+    "allowJs": false,
+    "jsx": "react-native",
+    "noEmit": true,
+    "isolatedModules": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "assets/*": ["./src/assets/*"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["src/core/constants/*"],
+      "contexts/*": ["./src/contexts/*"],
+      "gql/*": ["./src/core/gql/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "layouts/*": ["./src/layouts/*"],
+      "models/*": ["src/core/models/*"],
+      "pages/*": ["./src/pages/*"],
+      "utils/*": ["./src/utils/*"],
+      "services/*": ["./src/core/services/*"],
+      "store/*": ["./src/core/store/*"],
+      "transformers/*": ["./src/core/transformers/*"]
+    }
+  },
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "**.js",
+    "**/*.mjs",
+    "declarations.d.ts"
+  ],
+  "exclude": ["node_modules", "src/core/gql/gitlab/codegen"]
+}

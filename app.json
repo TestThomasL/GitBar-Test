@@ -1,0 +1,7 @@
+{
+  "name": "GitBar",
+  "expo": {
+    "name": "GitBar",
+    "plugins": ["expo-font"]
+  }
+}
