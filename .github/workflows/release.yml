@@ -34,30 +34,20 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Install the Apple certificates and provisioning profile
+      - name: Setup Development Certificates
         env:
           KEYCHAIN_PASSWORD: ${{ github.run_id }}
           DEVELOPMENT_CERTIFICATE_BASE64: ${{ secrets.DEVELOPMENT_CERTIFICATE_BASE64 }}
           DEVELOPMENT_KEY_BASE64: ${{ secrets.DEVELOPMENT_KEY_BASE64 }}
-          DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.MACOS_CERTIFICATE }}
-          DISTRIBUTION_P12_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
         run: |
           # create variables
-          DIST_KEYCHAIN_PATH=$RUNNER_TEMP/dist-signing.keychain-db
           DEV_KEYCHAIN_PATH=$RUNNER_TEMP/dev-signing.keychain-db
           DEV_CERT_PATH=$RUNNER_TEMP/development_certificate.cer
           DEV_KEY_PATH=$RUNNER_TEMP/development_key.pem
-          DIST_CERT_PATH=$RUNNER_TEMP/distribution_certificate.p12
 
           # import certificates from secrets
           echo -n "$DEVELOPMENT_CERTIFICATE_BASE64" | base64 --decode -o $DEV_CERT_PATH
           echo -n "$DEVELOPMENT_KEY_BASE64" | base64 --decode -o $DEV_KEY_PATH
-          echo -n "$DISTRIBUTION_CERTIFICATE_BASE64" | base64 --decode -o $DIST_CERT_PATH
-
-          # create distribution keychain
-          security create-keychain -p "$KEYCHAIN_PASSWORD" $DIST_KEYCHAIN_PATH
-          security set-keychain-settings -lut 21600 $DIST_KEYCHAIN_PATH
-          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $DIST_KEYCHAIN_PATH
 
           # create development keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $DEV_KEYCHAIN_PATH
@@ -68,21 +58,46 @@ jobs:
           security import $DEV_CERT_PATH -T /usr/bin/codesign -k $DEV_KEYCHAIN_PATH
           security import $DEV_KEY_PATH -T /usr/bin/codesign -k $DEV_KEYCHAIN_PATH
 
+          # Set partition list for dev keychain
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $DEV_KEYCHAIN_PATH
+
+          # Clean up certificate files
+          rm $DEV_CERT_PATH $DEV_KEY_PATH
+
+          # Export keychain path for later steps
+          echo "GITHUB_DEV_KEYCHAIN_PATH=$DEV_KEYCHAIN_PATH" >> $GITHUB_ENV
+
+      - name: Setup Distribution Certificates
+        env:
+          KEYCHAIN_PASSWORD: ${{ github.run_id }}
+          DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.MACOS_CERTIFICATE }}
+          DISTRIBUTION_P12_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
+        run: |
+          # create variables
+          DIST_KEYCHAIN_PATH=$RUNNER_TEMP/dist-signing.keychain-db
+          DIST_CERT_PATH=$RUNNER_TEMP/distribution_certificate.p12
+
+          # import certificate from secrets
+          echo -n "$DISTRIBUTION_CERTIFICATE_BASE64" | base64 --decode -o $DIST_CERT_PATH
+
+          # create distribution keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $DIST_KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $DIST_KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $DIST_KEYCHAIN_PATH
+
           # Add distribution certificate to dist keychain
           security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $DIST_KEYCHAIN_PATH
 
           # Update keychain search list to include both keychains
-          security list-keychains -d user -s $DEV_KEYCHAIN_PATH $DIST_KEYCHAIN_PATH
+          security list-keychains -d user -s $DIST_KEYCHAIN_PATH $DEV_KEYCHAIN_PATH
 
-          # Set partition list for both keychains
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $DEV_KEYCHAIN_PATH
+          # Set partition list for dist keychain
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $DIST_KEYCHAIN_PATH
 
           # Clean up certificate files
-          rm $DEV_CERT_PATH $DEV_KEY_PATH $DIST_CERT_PATH
+          rm $DIST_CERT_PATH
 
-          # Export keychain paths for later steps
-          echo "GITHUB_DEV_KEYCHAIN_PATH=$DEV_KEYCHAIN_PATH" >> $GITHUB_ENV
+          # Export keychain path for later steps
           echo "GITHUB_DIST_KEYCHAIN_PATH=$DIST_KEYCHAIN_PATH" >> $GITHUB_ENV
 
       - name: Install CocoaPods
