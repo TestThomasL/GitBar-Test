@@ -55,8 +55,8 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $DEV_KEYCHAIN_PATH
 
           # Add development certificate to dev keychain
-          security import $DEV_CERT_PATH -T /usr/bin/codesign -k $DEV_KEYCHAIN_PATH
-          # security import $DEV_KEY_PATH -T /usr/bin/codesign -k $DEV_KEYCHAIN_PATH
+          # security import $DEV_CERT_PATH -T /usr/bin/codesign -k $DEV_KEYCHAIN_PATH
+          security import $DEV_KEY_PATH -T /usr/bin/codesign -k $DEV_KEYCHAIN_PATH
 
           # Set partition list for dev keychain
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $DEV_KEYCHAIN_PATH
