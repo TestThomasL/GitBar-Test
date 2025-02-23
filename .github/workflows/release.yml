@@ -44,7 +44,7 @@ jobs:
         run: |
           # create variables
           KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
-          DEV_CERT_PATH=$RUNNER_TEMP/development_certificate.cer
+          DEV_CERT_PATH=$RUNNER_TEMP/development_certificate.p12
           DIST_CERT_PATH=$RUNNER_TEMP/distribution_certificate.p12
 
           # import certificates from secrets
@@ -60,7 +60,7 @@ jobs:
           security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
 
           # Add distribution certificate to keychain
-          # security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
 
           # Set keychain as default and update search list
           security list-keychains -d user -s $KEYCHAIN_PATH
