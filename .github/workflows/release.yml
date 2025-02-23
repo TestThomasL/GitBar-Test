@@ -58,13 +58,22 @@ jobs:
           security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
-          # import certificates to keychain
-          security import $DEV_CERT_PATH -T /usr/bin/codesign -k $KEYCHAIN_PATH
-          security import $DEV_KEY_PATH -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          # Unlock system keychain
+          sudo security unlock-keychain -p "" /Library/Keychains/System.keychain
+
+          # Add development certificate to system keychain
+          sudo security import $DEV_CERT_PATH -T /usr/bin/codesign -k /Library/Keychains/System.keychain
+          sudo security import $DEV_KEY_PATH -T /usr/bin/codesign -k /Library/Keychains/System.keychain
+
+          # import certificates to temporary keychain
+          # security import $DEV_CERT_PATH -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          # security import $DEV_KEY_PATH -T /usr/bin/codesign -k $KEYCHAIN_PATH
           security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
 
+          # Update keychain search list to include both system and temporary keychain
+          security list-keychains -d user -s /Library/Keychains/System.keychain $KEYCHAIN_PATH
+
           security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          security list-keychain -d user -s $KEYCHAIN_PATH
 
           # Clean up certificate files
           rm $DEV_CERT_PATH $DEV_KEY_PATH $DIST_CERT_PATH
