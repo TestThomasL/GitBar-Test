@@ -57,7 +57,7 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
           # Add development certificate and key to keychain (Certificate must be imported before the key)
-          security import $DEV_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          # security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
 
           # Add distribution certificate to keychain
           security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
