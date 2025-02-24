@@ -58,9 +58,11 @@ jobs:
 
           # Add development certificate and key to keychain (Certificate must be imported before the key)
           security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          security find-identity -p codesigning -v $KEYCHAIN_PATH
 
           # Add distribution certificate to keychain
           security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          security find-identity -p codesigning -v $KEYCHAIN_PATH
 
           # Set keychain as default and update search list
           security list-keychains -d user -s $KEYCHAIN_PATH
