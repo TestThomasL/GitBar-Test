@@ -44,9 +44,9 @@ PODS:
   - hermes-engine (0.76.7):
     - hermes-engine/Pre-built (= 0.76.7)
   - hermes-engine/Pre-built (0.76.7)
-  - MMKV (2.1.0):
-    - MMKVCore (~> 2.1.0)
-  - MMKVCore (2.1.1)
+  - MMKV (2.0.0):
+    - MMKVCore (~> 2.0.0)
+  - MMKVCore (2.0.0)
   - NotificationsModule (1.0.0):
     - ExpoModulesCore
   - PickerModule (1.0.0):
@@ -1920,8 +1920,8 @@ SPEC CHECKSUMS:
   fmt: cca1eb84179ad528ae1ba9fdf135ed1ac49e19cb
   glog: 750f96a379703a2d724d2f1fc6cb3a3eff000817
   hermes-engine: eb4a80f6bf578536c58a44198ec93a30f6e69218
-  MMKV: ce484c1ac40bf76d5f09a0195d2ec5b3d3840d55
-  MMKVCore: 1eb661c6c498ab88e3df9ce5d8ff94d05fcc0567
+  MMKV: f7d1d5945c8765f97f39c3d121f353d46735d801
+  MMKVCore: c04b296010fcb1d1638f2c69405096aac12f6390
   NotificationsModule: cd5db15035168922bf6231793c14ca6ea0ae3b7c
   PickerModule: dbcedf1d51401b15c33d4b5cdb8535a546cfa83c
   PopoverModule: fc03b887ea8199d7b6a547046cc3bfcbeab058b6

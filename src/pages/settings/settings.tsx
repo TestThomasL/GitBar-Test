@@ -19,7 +19,6 @@ import DefaultLayout from "layouts/default-layout/default-layout";
 import Appearance from "models/appearance";
 import { GroupPullRequestsBy } from "models/pull-request";
 import AppModule from "modules/app-module";
-import LaunchAtLoginModule from "modules/app-module/src/LaunchAtLogin";
 import NotificationsModule, {
   NotificationPermission,
 } from "modules/notifications-module";
@@ -61,10 +60,17 @@ const Settings: React.FC = () => {
   const [notificationPermissions, setNotificationPermissions] =
     useState<NotificationPermission>();
   const [launchAtLogin, setLaunchAtLogin] = useState<boolean>();
+  const [isLaunchAtLoginSupported, setIsLaunchAtLoginSupported] =
+    useState<boolean>();
 
   useEffect(() => {
-    void LaunchAtLoginModule.getStatus().then((status: boolean) => {
+    void AppModule.isLaunchAtLoginEnabled().then((status: boolean) => {
       setLaunchAtLogin(status);
+    });
+    void AppModule.isLaunchAtLoginSupported().then((supported: boolean) => {
+      if (!supported) {
+        setIsLaunchAtLoginSupported(supported);
+      }
     });
     void NotificationsModule.getPermissions().then((result) => {
       setNotificationPermissions(result);
@@ -185,14 +191,16 @@ const Settings: React.FC = () => {
             // { label: t("Settings/Appearance/System"), value: Appearance.Auto },
           ]}
         />
-        <ListItemToggle
-          label={t("Settings/Application/LaunchAtLogin")}
-          value={launchAtLogin ?? false}
-          onToggle={async (value) => {
-            await LaunchAtLoginModule.setStatus(value);
-            setLaunchAtLogin(value);
-          }}
-        />
+        {!isLaunchAtLoginSupported && (
+          <ListItemToggle
+            label={t("Settings/Application/LaunchAtLogin")}
+            value={launchAtLogin ?? false}
+            onToggle={async (value) => {
+              await AppModule.setLaunchAtLoginEnabled(value);
+              setLaunchAtLogin(value);
+            }}
+          />
+        )}
 
         {__DEV__ && (
           <>

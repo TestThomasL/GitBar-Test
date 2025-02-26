@@ -7,7 +7,7 @@ import Body from "components/body/body";
 import useTranslation from "hooks/use-translation";
 import OnboardingLayout from "layouts/onboarding-layout/onboarding-layout";
 import { OnboardingStackParamList } from "models/onboarding-stack-param-list";
-import LaunchAtLoginModule from "modules/app-module/src/LaunchAtLogin";
+import AppModule from "modules/app-module";
 
 import useStyles from "./launch-at-login.styles";
 
@@ -18,7 +18,7 @@ const LaunchAtLogin: React.FC = () => {
     useNavigation<NavigationProp<OnboardingStackParamList>>();
 
   const onContinue = async (accepted: boolean) => {
-    await LaunchAtLoginModule.setStatus(accepted);
+    await AppModule.setLaunchAtLoginEnabled(accepted);
     navigate("Notifications");
   };
 

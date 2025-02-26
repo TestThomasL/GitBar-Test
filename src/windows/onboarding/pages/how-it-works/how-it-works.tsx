@@ -9,6 +9,7 @@ import FeatureItem from "components/feature-item/feature-item";
 import useTranslation from "hooks/use-translation";
 import OnboardingLayout from "layouts/onboarding-layout/onboarding-layout";
 import { OnboardingStackParamList } from "models/onboarding-stack-param-list";
+import AppModule from "modules/app-module";
 
 import useStyles from "./how-it-works.styles";
 
@@ -18,6 +19,15 @@ const HowItWorks: React.FC = () => {
   const { navigate } =
     useNavigation<NavigationProp<OnboardingStackParamList>>();
 
+  const navigateToNextPage = async () => {
+    const supported = await AppModule.isLaunchAtLoginSupported();
+    if (!supported) {
+      navigate("Notifications");
+      return;
+    }
+    navigate("LaunchAtLogin");
+  };
+
   return (
     <OnboardingLayout
       title={t("Onboarding/HowItWorks/Heading")}
@@ -26,7 +36,7 @@ const HowItWorks: React.FC = () => {
         {
           type: "neutral",
           label: t("General/Button/Next"),
-          onPress: () => navigate("LaunchAtLogin"),
+          onPress: navigateToNextPage,
         },
       ]}
     >

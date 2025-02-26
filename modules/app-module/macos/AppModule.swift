@@ -1,4 +1,5 @@
 import ExpoModulesCore
+import ServiceManagement
 
 // custom error
 enum AppError: Error {
@@ -32,6 +33,37 @@ public class AppModule: Module {
 
     Function("closeApp") {
       exit(0)
+    }
+
+    // Launch at login functions
+    AsyncFunction("isLaunchAtLoginSupported") { () -> Bool in
+      if #available(macOS 13.0, *) {
+        return true
+      }
+      return false
+    }
+
+    AsyncFunction("isLaunchAtLoginEnabled") { () -> Bool in
+      if #available(macOS 13.0, *) {
+        return SMAppService.mainApp.status == .enabled
+      }
+      throw AppError.failedToSetLaunchAtLogin
+    }
+
+    AsyncFunction("setLaunchAtLoginEnabled") { (enabled: Bool) in
+      if #available(macOS 13.0, *) {
+        do {
+          if enabled {
+            try SMAppService.mainApp.register()
+          } else {
+            try SMAppService.mainApp.unregister()
+          }
+        } catch {
+          throw AppError.failedToSetLaunchAtLogin
+        }
+      } else {
+        throw AppError.failedToSetLaunchAtLogin
+      }
     }
   }
 

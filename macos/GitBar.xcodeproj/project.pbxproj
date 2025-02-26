@@ -12,11 +12,9 @@
 		514201552437B4B40078DB4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 514201532437B4B40078DB4F /* Main.storyboard */; };
 		532DA30C1A3C5672972A09B8 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = BD60D9C6D3E4338EF6EFC384 /* PrivacyInfo.xcprivacy */; };
 		6A0FC0DA2C92355400A74D15 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 6A0FC0D92C92355400A74D15 /* fonts */; };
-		6A156CEB2CA1F8FD00B69B21 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 6A156CEA2CA1F8FD00B69B21 /* LaunchAtLogin */; };
 		6A3FD27E2D034E8A0046242F /* RNEventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3FD27D2D034E7D0046242F /* RNEventEmitter.swift */; };
 		6A700CFF2C936CBF009FE82F /* MMKVStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A700CFE2C936CBF009FE82F /* MMKVStorage.swift */; };
 		6A87DC452C9205EE0014F3ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A87DC442C9205EE0014F3ED /* AppDelegate.swift */; };
-		6AC7F0652CA80CD500CB5C0A /* LaunchAtLoginModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC7F0642CA80CCF00CB5C0A /* LaunchAtLoginModule.swift */; };
 		6AC7F0692CA80E4500CB5C0A /* AvailableInterfaces.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC7F0682CA80E4500CB5C0A /* AvailableInterfaces.m */; };
 		B251F639C3B1D566B5066829 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731F036827B7D7037932CD5B /* ExpoModulesProvider.swift */; };
 /* End PBXBuildFile section */
@@ -33,7 +31,6 @@
 		6A700D222C937D67009FE82F /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk/System/Library/Frameworks/ServiceManagement.framework; sourceTree = DEVELOPER_DIR; };
 		6A87DC442C9205EE0014F3ED /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6A87DC462C9206000014F3ED /* GitBar-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GitBar-Bridging-Header.h"; sourceTree = "<group>"; };
-		6AC7F0642CA80CCF00CB5C0A /* LaunchAtLoginModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAtLoginModule.swift; sourceTree = "<group>"; };
 		6AC7F0682CA80E4500CB5C0A /* AvailableInterfaces.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AvailableInterfaces.m; sourceTree = "<group>"; };
 		731F036827B7D7037932CD5B /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-GitBar/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		BD60D9C6D3E4338EF6EFC384 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ../PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -49,7 +46,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A156CEB2CA1F8FD00B69B21 /* LaunchAtLogin in Frameworks */,
 				07FF469FA0E85D01009749BA /* libPods-GitBar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -121,7 +117,6 @@
 			children = (
 				6A3FD27D2D034E7D0046242F /* RNEventEmitter.swift */,
 				6AC7F0682CA80E4500CB5C0A /* AvailableInterfaces.m */,
-				6AC7F0642CA80CCF00CB5C0A /* LaunchAtLoginModule.swift */,
 			);
 			path = Bridges;
 			sourceTree = "<group>";
@@ -206,9 +201,6 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
-			packageReferences = (
-				6A156CE92CA1F8FD00B69B21 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Legacy" */,
-			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -358,7 +350,6 @@
 				6A700CFF2C936CBF009FE82F /* MMKVStorage.swift in Sources */,
 				6A3FD27E2D034E8A0046242F /* RNEventEmitter.swift in Sources */,
 				6AC7F0692CA80E4500CB5C0A /* AvailableInterfaces.m in Sources */,
-				6AC7F0652CA80CD500CB5C0A /* LaunchAtLoginModule.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,7 +380,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 45;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = H352RCBU8J;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = GitBar/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -421,9 +412,9 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = GitBar/GitBar.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "3rd Party Mac Developer Application";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "3rd Party Mac Developer Application";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 45;
 				DEVELOPMENT_TEAM = H352RCBU8J;
 				"DEVELOPMENT_TEAM[sdk=macosx*]" = H352RCBU8J;
@@ -443,7 +434,7 @@
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = io.lamars.gitbar;
 				PRODUCT_NAME = GitBar;
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "io.lamars.gitbar AppStore";
 				SDKROOT = macosx;
 				SWIFT_OBJC_BRIDGING_HEADER = "GitBar/GitBar-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -612,25 +603,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		6A156CE92CA1F8FD00B69B21 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Legacy" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin-Legacy";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		6A156CEA2CA1F8FD00B69B21 /* LaunchAtLogin */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 6A156CE92CA1F8FD00B69B21 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Legacy" */;
-			productName = LaunchAtLogin;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }
