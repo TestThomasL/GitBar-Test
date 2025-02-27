@@ -37,6 +37,7 @@ platform :mac do
       scheme: "GitBar",
       export_method: "app-store",
       configuration: "Release",
+      installer_cert_name: "3rd Party Mac Developer Application: Thomas Lamars (H352RCBU8J)",
       export_options: {
         signingStyle: "automatic",
         method: "app-store-connect",
