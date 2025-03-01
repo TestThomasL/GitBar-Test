@@ -11,12 +11,12 @@ platform :mac do
     )
 
     # Get the certificate 
-    # get_certificates(
-    #   api_key: app_store_connect_api_key,
-    #   keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
-    #   keychain_password: ENV["GITHUB_RUN_ID"],
-    #   platform: "macos",
-    # )
+    get_certificates(
+      api_key: app_store_connect_api_key,
+      keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
+      keychain_password: ENV["GITHUB_RUN_ID"],
+      platform: "macos",
+    )
 
     get_provisioning_profile(
       api_key: app_store_connect_api_key,
@@ -38,11 +38,16 @@ platform :mac do
       export_method: "app-store",
       configuration: "Release",
       installer_cert_name: "3rd Party Mac Developer Installer: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})",
+      export_options: {
+        signingStyle: "automatic",
+        method: "app-store-connect",
+        teamID: ENV["APPLE_TEAM_ID"]
+      },
     )
     
-    upload_to_testflight(
-      api_key: app_store_connect_api_key,
-      skip_submission: true,
-    )
+    # upload_to_testflight(
+    #   api_key: app_store_connect_api_key,
+    #   skip_submission: true,
+    # )
   end
 end
