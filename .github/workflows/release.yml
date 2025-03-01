@@ -96,7 +96,7 @@ jobs:
           # Clear derived data
           rm -rf ~/Library/Developer/Xcode/DerivedData
 
-          xcodebuild -workspace GitBar.xcworkspace -scheme GitBar -configuration Release clean archive -archivePath GitBar.xcarchive
+          xcodebuild -workspace GitBar.xcworkspace -scheme GitBar -configuration Release clean archive -archivePath GitBar.xcarchive | xcpretty
 
       - name: Export App
         env:
@@ -106,10 +106,7 @@ jobs:
         run: |
           cd macos
           security find-identity -v 
-          xcodebuild -exportArchive \
-            -archivePath GitBar.xcarchive \
-            -exportPath Export \
-            -exportOptionsPlist ExportOptions.plist
+          xcodebuild -exportArchive -archivePath GitBar.xcarchive -exportPath Export -exportOptionsPlist ExportOptions.plist | xcpretty
 
           cd Export
           pwd
