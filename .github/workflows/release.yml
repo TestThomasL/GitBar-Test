@@ -84,19 +84,19 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Install CocoaPods
-        run: |
-          cd macos
-          pod install
+      # - name: Install CocoaPods
+      #   run: |
+      #     cd macos
+      #     pod install
 
-      - name: Archive
-        run: |
-          cd macos 
+      # - name: Archive
+      #   run: |
+      #     cd macos
 
-          # Clear derived data
-          rm -rf ~/Library/Developer/Xcode/DerivedData
+      #     # Clear derived data
+      #     rm -rf ~/Library/Developer/Xcode/DerivedData
 
-          xcodebuild -workspace GitBar.xcworkspace -scheme GitBar -configuration Release clean archive -archivePath GitBar.xcarchive | xcpretty
+      #     xcodebuild -workspace GitBar.xcworkspace -scheme GitBar -configuration Release clean archive -archivePath GitBar.xcarchive | xcpretty
 
       - name: Export App
         env:
@@ -107,10 +107,6 @@ jobs:
           cd macos
           security find-identity -v 
           xcodebuild -exportArchive -archivePath GitBar.xcarchive -exportPath Export -exportOptionsPlist ExportOptions.plist | xcpretty
-
-          cd Export
-          pwd
-          ls -la
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4

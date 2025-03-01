@@ -5,14 +5,14 @@
 	<key>installerSigningCertificate</key>
 	<string>3rd Party Mac Developer Installer: Thomas Lamars (H352RCBU8J)</string>
 	<key>method</key>
-	<string>app-store</string>
+	<string>app-store-connect</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>io.lamars.gitbar</key>
 		<string>io.lamars.gitbar AppStore</string>
 	</dict>
 	<key>signingStyle</key>
-	<string>manual</string>
+	<string>automatic</string>
 	<key>teamID</key>
 	<string>H352RCBU8J</string>
 </dict>
