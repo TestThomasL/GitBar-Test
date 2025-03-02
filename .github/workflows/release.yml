@@ -106,48 +106,12 @@ jobs:
           security find-identity -v
           bundle exec fastlane beta --verbose
 
-      # - name: Archive
-      #   run: |
-      #     cd macos
-
-      #     # Clear derived data
-      #     rm -rf ~/Library/Developer/Xcode/DerivedData
-
-      #     xcodebuild -workspace GitBar.xcworkspace -scheme GitBar -configuration Release clean archive -archivePath GitBar.xcarchive | xcpretty
-
-      # - name: Export App
-      #   env:
-      #     TEAM_ID: ${{ secrets.TEAM_ID }}
-      #     BUNDLE_ID: ${{ secrets.BUNDLE_ID }}
-      #     PROVISIONING_PROFILE_NAME: ${{ secrets.PROVISIONING_PROFILE_NAME }}
-      #     APPLE_API_KEY_PATH: ${{ env.APPLE_API_KEY_PATH }}
-      #     APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
-      #     APPLE_API_KEY_ISSUER_ID: ${{ secrets.APPLE_API_KEY_ISSUER_ID }}
-      #   run: |
-      #     cd macos
-      #     security find-identity -v
-      #     xcodebuild -exportArchive \
-      #       -archivePath GitBar.xcarchive \
-      #       -exportPath Export \
-      #       -exportOptionsPlist ExportOptions.plist \
-      #       -allowProvisioningUpdates \
-      #       -authenticationKeyPath "$APPLE_API_KEY_PATH" \
-      #       -authenticationKeyID "$APPLE_API_KEY_ID" \
-      #       -authenticationKeyIssuerID "$APPLE_API_KEY_ISSUER_ID" | xcpretty
-
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: GitBar-builds
           path: |
-            macos/Export/*
-
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: GitBar-builds
-          path: |
-            macos/GitBar.pkg
+            macos/Export/GitBar.pkg
 
       # - name: Generate Changelog
       #   id: changelog
