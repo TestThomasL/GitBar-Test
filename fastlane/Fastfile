@@ -32,7 +32,7 @@ platform :mac do
     #   xcodeproj: "./macos/GitBar.xcodeproj"
     # )
 
-    build_mac_app(
+    gym(
       workspace: "macos/gitbar.xcworkspace",
       scheme: "GitBar",
       export_method: "app-store",
