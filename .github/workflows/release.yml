@@ -59,23 +59,23 @@ jobs:
 
           # create keychain
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-          # security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-          # security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
           # Add development certificate and key to keychain (Certificate must be imported before the key)
           security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security find-identity -p codesigning -v $KEYCHAIN_PATH
 
           # Add distribution certificate to keychain
-          security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
+          security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security find-identity -p codesigning -v $KEYCHAIN_PATH
 
           # Set keychain as default and update search list
           security list-keychains -d user -s $KEYCHAIN_PATH
-          security default-keychain -s $KEYCHAIN_PATH
-
-          # Set partition list for keychain
-          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          # security default-keychain -s $KEYCHAIN_PATH
 
           # Clean up certificate files
           rm $DEV_CERT_PATH $DIST_CERT_PATH
