@@ -50,8 +50,8 @@ platform :mac do
     # sh "productbuild"
 
     # run productbuild to create the pkg
-    sh "productbuild --component ../macos/Export/GitBar.app /Applications --sign 'Apple Distribution: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})' ../macos/Export/GitBar.pkg"
-    
+    sh "productbuild --component ../macos/Export/GitBar.app /Applications ../macos/Export/GitBar.pkg"
+    sh "productsign --sign '3rd Party Mac Developer Installer: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})' ../macos/Export/GitBar.pkg ../macos/Export/GitBar-signed.pkg"
     # upload_to_testflight(
     #   api_key: app_store_connect_api_key,
     #   skip_submission: true,
