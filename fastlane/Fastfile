@@ -16,14 +16,12 @@ platform :mac do
       # keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
       # keychain_password: ENV["GITHUB_RUN_ID"],
       platform: "macos",
-      readonly: true,
     )
 
     get_provisioning_profile(
       api_key: app_store_connect_api_key,
       app_identifier: "io.lamars.gitbar",
       platform: "macos",
-      force: true,
     )
 
     # get_certificates(
