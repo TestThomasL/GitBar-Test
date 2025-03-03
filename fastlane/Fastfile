@@ -13,8 +13,8 @@ platform :mac do
     # Get the certificate 
     get_certificates(
       api_key: app_store_connect_api_key,
-      # keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
-      # keychain_password: ENV["GITHUB_RUN_ID"],
+      keychain_path: ENV["KEYCHAIN_PATH"],
+      keychain_password: ENV["KEYCHAIN_PASSWORD"],
       platform: "macos",
     )
 

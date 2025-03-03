@@ -35,64 +35,11 @@ jobs:
           xcode-version: "16.1.0"
 
       - name: Install Certificates
+        id: cert-installer
         uses: apple-actions/import-codesign-certs@v3
         with:
           p12-file-base64: ${{ secrets.MACOS_CERTIFICATE }}
           p12-password: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-
-      # - name: Setup Certificates
-      #   env:
-      #     KEYCHAIN_PASSWORD: ${{ github.run_id }}
-      #     DEVELOPMENT_CERTIFICATE_BASE64: ${{ secrets.DEVELOPMENT_CERTIFICATE }}
-      #     DEVELOPMENT_P12_PASSWORD: ${{ secrets.DEVELOPMENT_CERTIFICATE_PWD }}
-      #     DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.MACOS_CERTIFICATE }}
-      #     DISTRIBUTION_P12_PASSWORD: ${{ secrets.MACOS_CERTIFICATE_PWD }}
-      #     PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-      #     APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
-      #   run: |
-      #     # create variables
-      #     KEYCHAIN_PATH=$RUNNER_TEMP/signing.keychain-db
-      #     DEV_CERT_PATH=$RUNNER_TEMP/development_certificate.p12
-      #     DIST_CERT_PATH=$RUNNER_TEMP/distribution_certificate.p12
-      #     PROFILE_PATH=$RUNNER_TEMP/profile.provisionprofile
-      #     API_KEY_PATH=$RUNNER_TEMP/api_key.p8
-
-      #     # import certificates from secrets
-      #     echo -n "$DEVELOPMENT_CERTIFICATE_BASE64" | base64 --decode -o $DEV_CERT_PATH
-      #     echo -n "$DISTRIBUTION_CERTIFICATE_BASE64" | base64 --decode -o $DIST_CERT_PATH
-      #     echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PROFILE_PATH
-      #     echo -n "$APPLE_API_KEY_CONTENT" | base64 --decode -o $API_KEY_PATH
-
-      #     # create keychain
-      #     security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-      #     security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
-      #     security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-
-      #     # Add development certificate and key to keychain (Certificate must be imported before the key)
-      #     security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -T /usr/bin/codesign -k $KEYCHAIN_PATH
-      #     security import $DEV_CERT_PATH -P "$DEVELOPMENT_P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-      #     security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-      #     security find-identity -p codesigning -v $KEYCHAIN_PATH
-
-      #     # Add distribution certificate to keychain
-      #     security import $DIST_CERT_PATH -P "$DISTRIBUTION_P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
-      #     security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
-      #     security find-identity -p codesigning -v $KEYCHAIN_PATH
-
-      #     # Set keychain as default and update search list
-      #     security list-keychains -d user -s $KEYCHAIN_PATH
-      #     # security default-keychain -s $KEYCHAIN_PATH
-
-      #     # Clean up certificate files
-      #     rm $DEV_CERT_PATH $DIST_CERT_PATH
-
-      #     # Export keychain path for later steps
-      #     echo "GITHUB_KEYCHAIN_PATH=$KEYCHAIN_PATH" >> $GITHUB_ENV
-      #     echo "APPLE_API_KEY_PATH=$API_KEY_PATH" >> $GITHUB_ENV
-
-      #     # Install provisioning profile
-      #     mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-      #     cp $PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: Install CocoaPods
         run: |
@@ -105,11 +52,14 @@ jobs:
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_KEY_ISSUER_ID: ${{ secrets.APPLE_API_KEY_ISSUER_ID }}
           APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
-          GITHUB_KEYCHAIN_PATH: ${{ env.GITHUB_KEYCHAIN_PATH }}
+          KEYCHAIN_PATH: ${{ steps.cert-installer.outputs.keychain-path }}
+          KEYCHAIN_PASSWORD: ${{ steps.cert-installer.outputs.keychain-password }}
         run: |
           # Show all items in the keychain
           security list-keychains
           security find-identity -v
+          echo $KEYCHAIN_PATH
+          echo $KEYCHAIN_PASSWORD
           bundle exec fastlane beta --verbose
 
       - name: Upload Build Artifacts
