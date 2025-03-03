@@ -52,7 +52,7 @@ jobs:
           APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
           APPLE_API_KEY_ISSUER_ID: ${{ secrets.APPLE_API_KEY_ISSUER_ID }}
           APPLE_API_KEY_CONTENT: ${{ secrets.APPLE_API_KEY_CONTENT }}
-          KEYCHAIN_PATH: ${{ steps.cert-installer.outputs.keychain-path }}
+          KEYCHAIN_PATH: "~/Library/Keychains/signing_temp.keychain-db"
           KEYCHAIN_PASSWORD: ${{ steps.cert-installer.outputs.keychain-password }}
         run: |
           # Show all items in the keychain
