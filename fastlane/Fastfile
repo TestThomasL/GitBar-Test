@@ -11,19 +11,19 @@ platform :mac do
     )
 
     # Get the certificate 
-    # get_certificates(
-    #   api_key: app_store_connect_api_key,
-    #   keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
-    #   keychain_password: ENV["GITHUB_RUN_ID"],
-    #   platform: "macos",
-    # )
+    get_certificates(
+      api_key: app_store_connect_api_key,
+      keychain_path: ENV["GITHUB_KEYCHAIN_PATH"],
+      keychain_password: ENV["GITHUB_RUN_ID"],
+      platform: "macos",
+    )
 
-    # get_provisioning_profile(
-    #   api_key: app_store_connect_api_key,
-    #   app_identifier: "io.lamars.gitbar",
-    #   platform: "macos",
-    #   force: true,
-    # )
+    get_provisioning_profile(
+      api_key: app_store_connect_api_key,
+      app_identifier: "io.lamars.gitbar",
+      platform: "macos",
+      force: true,
+    )
 
     # get_certificates(
     #   api_key: app_store_connect_api_key,
@@ -42,26 +42,26 @@ platform :mac do
     #   xcodeproj: "./macos/GitBar.xcodeproj"
     # )
 
-    # build_mac_app(
-    #   workspace: "macos/gitbar.xcworkspace",
-    #   scheme: "GitBar",
-    #   export_method: "app-store",
-    #   configuration: "Release",
-    #   installer_cert_name: "3rd Party Mac Developer Installer: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})",
-    #   export_options: {
-    #     signingStyle: "automatic",
-    #     method: "app-store-connect",
-    #     teamID: ENV["APPLE_TEAM_ID"],
-    #   },
-    #   output_directory: "macos/Export",  # This line specifies where the app will be exported
-    #   skip_package_pkg: true,
-    # )
+    build_mac_app(
+      workspace: "macos/gitbar.xcworkspace",
+      scheme: "GitBar",
+      export_method: "app-store",
+      configuration: "Release",
+      installer_cert_name: "3rd Party Mac Developer Installer: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})",
+      export_options: {
+        signingStyle: "automatic",
+        method: "app-store-connect",
+        teamID: ENV["APPLE_TEAM_ID"],
+      },
+      output_directory: "macos/Export",  # This line specifies where the app will be exported
+      # skip_package_pkg: true,
+    )
 
     # sh "productbuild"
 
     # run productbuild to create the pkg
-    sh "productbuild --component ../macos/Export/GitBar.app /Applications ../macos/Export/GitBar.pkg"
-    sh "productsign --sign '3rd Party Mac Developer Installer: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})' ../macos/Export/GitBar.pkg ../macos/Export/GitBar-signed.pkg"
+    # sh "productbuild --component ../macos/Export/GitBar.app /Applications ../macos/Export/GitBar.pkg"
+    # sh "productsign --sign '3rd Party Mac Developer Installer: Thomas Lamars (#{ENV['APPLE_TEAM_ID']})' ../macos/Export/GitBar.pkg ../macos/Export/GitBar-signed.pkg"
     # upload_to_testflight(
     #   api_key: app_store_connect_api_key,
     #   skip_submission: true,
